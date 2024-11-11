@@ -52,7 +52,7 @@ public class ChessBoard {
         {1, 1, 1, 1, 1, 1, 1, 1}, // White's pawns
         {2, 3, 4, 5, 6, 4, 3, 2} // Row 7: White's major pieces
     };
-    
+
     private int[] lastMove;
 
     // Enum to represent the player's turn
@@ -74,7 +74,7 @@ public class ChessBoard {
     public int[][] getBoard() {
         int[][] boardCopy = new int[board.length][];
         for (int i = 0; i < board.length; i++) {
-            boardCopy[i] = board[i].clone();  // Clone each row for deep copy
+            boardCopy[i] = board[i].clone(); // Clone each row for deep copy
         }
         return boardCopy;
     }
@@ -88,27 +88,14 @@ public class ChessBoard {
      */
     public int[] getBoardArray() {
         int[] oneDimensionalBoard = new int[65];
-        // TODO: Put the rating of the move in element 64 (e.g., based on Stockfish evaluation)
-
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
                 oneDimensionalBoard[(8 * y) + x] = board[y][x];
             }
         }
-
         return oneDimensionalBoard;
     }
 
-    /**
-     * Moves a piece from one square to another on the chessboard.
-     *
-     * Special moves like castling are handled separately.
-     *
-     * @param fromRow The starting row of the piece.
-     * @param fromCol The starting column of the piece.
-     * @param toRow The destination row of the piece.
-     * @param toCol The destination column of the piece.
-     */
     /**
      * Moves a piece from one square to another on the chessboard.
      *
@@ -125,7 +112,6 @@ public class ChessBoard {
 
             int piece = board[fromRow][fromCol];
             if (piece == 0) {
-                ////System.out.println("No piece found at the source.");
                 return;  // No piece to move
             }
 
@@ -137,13 +123,11 @@ public class ChessBoard {
                         board[fromRow][6] = piece;
                         board[fromRow][7] = 0;  // Move rook
                         board[fromRow][5] = (piece > 0) ? 2 : -2;  // Add rook
-                        ////System.out.println("Kingside castling executed.");
                     } else if (toCol == 2) {  // Queenside castling
                         board[fromRow][4] = 0;  // Move king
                         board[fromRow][2] = piece;
                         board[fromRow][0] = 0;  // Move rook
                         board[fromRow][3] = (piece > 0) ? 2 : -2;  // Add rook
-                        ////System.out.println("Queenside castling executed.");
                     }
                     return;
                 }
@@ -157,8 +141,6 @@ public class ChessBoard {
             if ((piece == 1 && toRow == 0) || (piece == -1 && toRow == 7)) {
                 promotePawn(toRow, toCol, piece > 0);  // Promote white or black pawn
             }
-        } else {
-            ////System.out.println("Invalid move or out-of-bounds coordinates.");
         }
     }
 
@@ -170,9 +152,7 @@ public class ChessBoard {
      * @param isWhite True if the pawn is white, false if black.
      */
     private void promotePawn(int row, int col, boolean isWhite) {
-
-        // Okay, I'll automatically turn into a queen for now
-        String choice = "Q";
+        String choice = "Q";  // Automatically promote to a queen for now
 
         int newPiece;
         switch (choice) {
@@ -184,10 +164,8 @@ public class ChessBoard {
                 newPiece = isWhite ? 3 : -3;  // Knight
             case "B" ->
                 newPiece = isWhite ? 4 : -4;  // Bishop
-            default -> {
-                ////System.out.println("Invalid choice, defaulting to Queen.");
+            default ->
                 newPiece = isWhite ? 5 : -5;  // Default to Queen
-            }
         }
 
         board[row][col] = newPiece;
@@ -202,8 +180,6 @@ public class ChessBoard {
     public void removePiece(int row, int col) {
         if (row >= 0 && row < 8 && col >= 0 && col < 8) {
             board[row][col] = 0;  // Set the square to empty (0)
-        } else {
-            ////System.out.println("Invalid coordinates for removing piece.");
         }
     }
 
@@ -218,8 +194,6 @@ public class ChessBoard {
     public void addPiece(int row, int col, int piece) {
         if (row >= 0 && row < 8 && col >= 0 && col < 8) {
             board[row][col] = piece;  // Place the piece on the board
-        } else {
-            ////System.out.println("Invalid coordinates for adding piece.");
         }
     }
 
@@ -227,11 +201,7 @@ public class ChessBoard {
      * Switches the turn to the next player (White to Black or Black to White).
      */
     public void nextMove() {
-        if (move == Player.WHITE) {
-            move = Player.BLACK;
-        } else {
-            move = Player.WHITE;
-        }
+        move = (move == Player.WHITE) ? Player.BLACK : Player.WHITE;
     }
 
     /**
@@ -251,57 +221,40 @@ public class ChessBoard {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 int piece = board[row][col];
-
-                // Convert piece value to a character
                 switch (piece) {
-                    case -1:
-                        sb.append('p');
-                        break;  // Black Pawn
-                    case -2:
-                        sb.append('r');
-                        break;  // Black Rook
-                    case -3:
-                        sb.append('n');
-                        break;  // Black Knight
-                    case -4:
-                        sb.append('b');
-                        break;  // Black Bishop
-                    case -5:
-                        sb.append('q');
-                        break;  // Black Queen
-                    case -6:
-                        sb.append('k');
-                        break;  // Black King
-                    case 1:
-                        sb.append('P');
-                        break;   // White Pawn
-                    case 2:
-                        sb.append('R');
-                        break;   // White Rook
-                    case 3:
-                        sb.append('N');
-                        break;   // White Knight
-                    case 4:
-                        sb.append('B');
-                        break;   // White Bishop
-                    case 5:
-                        sb.append('Q');
-                        break;   // White Queen
-                    case 6:
-                        sb.append('K');
-                        break;   // White King
-                    default:
-                        sb.append('*');
-                        break;  // Empty square
+                    case -1 ->
+                        sb.append('p');  // Black Pawn
+                    case -2 ->
+                        sb.append('r');  // Black Rook
+                    case -3 ->
+                        sb.append('n');  // Black Knight
+                    case -4 ->
+                        sb.append('b');  // Black Bishop
+                    case -5 ->
+                        sb.append('q');  // Black Queen
+                    case -6 ->
+                        sb.append('k');  // Black King
+                    case 1 ->
+                        sb.append('P');   // White Pawn
+                    case 2 ->
+                        sb.append('R');   // White Rook
+                    case 3 ->
+                        sb.append('N');   // White Knight
+                    case 4 ->
+                        sb.append('B');   // White Bishop
+                    case 5 ->
+                        sb.append('Q');   // White Queen
+                    case 6 ->
+                        sb.append('K');   // White King
+                    default ->
+                        sb.append('*');  // Empty square
                 }
             }
             sb.append('\n');  // New line after each row
         }
-
         return sb.toString();
     }
 
@@ -309,39 +262,28 @@ public class ChessBoard {
      * Returns all legal moves for the current player. Each move is represented
      * as an array: [fromRow, fromCol, toRow, toCol].
      *
+     * @param player The player whose moves are being calculated.
      * @return A list of arrays representing legal moves for the current player.
      */
     public List<int[]> getAllLegalMoves(Player player) {
         List<int[]> legalMoves = new ArrayList<>();
-
-        // Iterate through each square on the board
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 int piece = board[row][col];
-
-                // Check if the piece belongs to the specified player
                 if ((player == Player.WHITE && piece > 0) || (player == Player.BLACK && piece < 0)) {
-                    // Get potential moves for the current piece
                     List<int[]> pieceMoves = getMovesForPiece(row, col, piece);
-
                     for (int[] move : pieceMoves) {
-                        // Simulate the move
                         int capturedPiece = board[move[2]][move[3]];
                         movePiece(move[0], move[1], move[2], move[3]);
-
-                        // Check if the move leaves the king in check
                         if (!isInCheck(player)) {
                             legalMoves.add(move);  // Only add the move if it doesn't leave the king in check
                         }
-
-                        // Undo the move
                         board[move[0]][move[1]] = piece;
                         board[move[2]][move[3]] = capturedPiece;
                     }
                 }
             }
         }
-
         return legalMoves;
     }
 
@@ -357,83 +299,73 @@ public class ChessBoard {
     private List<int[]> getMovesForPiece(int row, int col, int piece) {
         List<int[]> moves = new ArrayList<>();
         boolean isWhite = piece > 0;
-
-        // Add logic for determining moves based on piece type
         switch (Math.abs(piece)) {
-            case 1: // Pawn
-                addPawnMoves(row, col, isWhite, moves);
-                break;
-            case 2: // Rook
-                addRookMoves(row, col, isWhite, moves);
-                break;
-            case 3: // Knight
-                addKnightMoves(row, col, isWhite, moves);
-                break;
-            case 4: // Bishop
-                addBishopMoves(row, col, isWhite, moves);
-                break;
-            case 5: // Queen
-                addQueenMoves(row, col, isWhite, moves);
-                break;
-            case 6: // King
-                addKingMoves(row, col, isWhite, moves);
-                break;
+            case 1 ->
+                addPawnMoves(row, col, isWhite, moves);  // Pawn
+            case 2 ->
+                addRookMoves(row, col, isWhite, moves);  // Rook
+            case 3 ->
+                addKnightMoves(row, col, isWhite, moves);  // Knight
+            case 4 ->
+                addBishopMoves(row, col, isWhite, moves);  // Bishop
+            case 5 ->
+                addQueenMoves(row, col, isWhite, moves);  // Queen
+            case 6 ->
+                addKingMoves(row, col, isWhite, moves);  // King
         }
-
         return moves;
     }
 
     // Helper methods for each type of piece
+    /**
+     * Adds possible pawn moves to the moves list.
+     *
+     * @param row The row of the pawn.
+     * @param col The column of the pawn.
+     * @param isWhite True if the pawn is white, false if black.
+     * @param moves The list to add the moves to.
+     */
     private void addPawnMoves(int row, int col, boolean isWhite, List<int[]> moves) {
         int direction = isWhite ? -1 : 1;
         int startRow = isWhite ? 6 : 1;
 
-        // Standard move forward
         if (isValidMove(row + direction, col) && board[row + direction][col] == 0) {
             moves.add(new int[]{row, col, row + direction, col});
-
-            // Double move from the starting position
             if (row == startRow && board[row + 2 * direction][col] == 0) {
                 moves.add(new int[]{row, col, row + 2 * direction, col});
             }
         }
 
-        // Captures
         if (isValidMove(row + direction, col - 1) && isOpponentPiece(row + direction, col - 1, isWhite)) {
             moves.add(new int[]{row, col, row + direction, col - 1});
         }
         if (isValidMove(row + direction, col + 1) && isOpponentPiece(row + direction, col + 1, isWhite)) {
             moves.add(new int[]{row, col, row + direction, col + 1});
         }
-
-        // En-passant logic
-        if (lastMove != null && Math.abs(board[row][col]) == 1) {
-            // Check if the pawn can capture en-passant
-            int lastFromRow = lastMove[0];
-            int lastFromCol = lastMove[1];
-            int lastToRow = lastMove[2];
-            int lastToCol = lastMove[3];
-
-            if (Math.abs(board[lastToRow][lastToCol]) == 1 && Math.abs(lastFromRow - lastToRow) == 2) {
-                // The last move was a double-step by a pawn
-                if (isWhite && row == 3 && Math.abs(col - lastToCol) == 1 && lastToRow == 3) {
-                    moves.add(new int[]{row, col, row + direction, lastToCol});
-                } else if (!isWhite && row == 4 && Math.abs(col - lastToCol) == 1 && lastToRow == 4) {
-                    moves.add(new int[]{row, col, row + direction, lastToCol});
-                }
-            }
-        }
     }
 
+    /**
+     * Adds possible rook moves to the moves list.
+     *
+     * @param row The row of the rook.
+     * @param col The column of the rook.
+     * @param isWhite True if the rook is white, false if black.
+     * @param moves The list to add the moves to.
+     */
     private void addRookMoves(int row, int col, boolean isWhite, List<int[]> moves) {
         addLinearMoves(row, col, isWhite, moves, new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}});
     }
 
+    /**
+     * Adds possible knight moves to the moves list.
+     *
+     * @param row The row of the knight.
+     * @param col The column of the knight.
+     * @param isWhite True if the knight is white, false if black.
+     * @param moves The list to add the moves to.
+     */
     private void addKnightMoves(int row, int col, boolean isWhite, List<int[]> moves) {
-        int[][] knightMoves = {
-            {-2, -1}, {-2, 1}, {-1, -2}, {-1, 2},
-            {1, -2}, {1, 2}, {2, -1}, {2, 1}
-        };
+        int[][] knightMoves = {{-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1}};
         for (int[] move : knightMoves) {
             int newRow = row + move[0];
             int newCol = col + move[1];
@@ -443,22 +375,41 @@ public class ChessBoard {
         }
     }
 
+    /**
+     * Adds possible bishop moves to the moves list.
+     *
+     * @param row The row of the bishop.
+     * @param col The column of the bishop.
+     * @param isWhite True if the bishop is white, false if black.
+     * @param moves The list to add the moves to.
+     */
     private void addBishopMoves(int row, int col, boolean isWhite, List<int[]> moves) {
         addLinearMoves(row, col, isWhite, moves, new int[][]{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}});
     }
 
+    /**
+     * Adds possible queen moves to the moves list.
+     *
+     * @param row The row of the queen.
+     * @param col The column of the queen.
+     * @param isWhite True if the queen is white, false if black.
+     * @param moves The list to add the moves to.
+     */
     private void addQueenMoves(int row, int col, boolean isWhite, List<int[]> moves) {
         addLinearMoves(row, col, isWhite, moves, new int[][]{
-            {1, 0}, {-1, 0}, {0, 1}, {0, -1},
-            {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
-        });
+            {1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}});
     }
 
+    /**
+     * Adds possible king moves to the moves list.
+     *
+     * @param row The row of the king.
+     * @param col The column of the king.
+     * @param isWhite True if the king is white, false if black.
+     * @param moves The list to add the moves to.
+     */
     private void addKingMoves(int row, int col, boolean isWhite, List<int[]> moves) {
-        int[][] kingMoves = {
-            {1, 0}, {-1, 0}, {0, 1}, {0, -1},
-            {1, 1}, {1, -1}, {-1, 1}, {-1, -1}
-        };
+        int[][] kingMoves = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
         for (int[] move : kingMoves) {
             int newRow = row + move[0];
             int newCol = col + move[1];
@@ -469,6 +420,16 @@ public class ChessBoard {
     }
 
     // Helper methods
+    // Helper methods
+    /**
+     * Adds linear moves in specified directions for a piece.
+     *
+     * @param row The starting row of the piece.
+     * @param col The starting column of the piece.
+     * @param isWhite True if the piece is white, false if black.
+     * @param moves The list to add the moves to.
+     * @param directions The array of directions to add moves for.
+     */
     private void addLinearMoves(int row, int col, boolean isWhite, List<int[]> moves, int[][] directions) {
         for (int[] direction : directions) {
             int newRow = row + direction[0];
@@ -484,20 +445,49 @@ public class ChessBoard {
         }
     }
 
+    /**
+     * Checks if the given coordinates are within the bounds of the chessboard.
+     *
+     * @param row The row index to check.
+     * @param col The column index to check.
+     * @return True if the coordinates are valid, false otherwise.
+     */
     private boolean isValidMove(int row, int col) {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
 
+    /**
+     * Determines if a piece at the given coordinates is friendly to the current
+     * player.
+     *
+     * @param row The row index of the piece.
+     * @param col The column index of the piece.
+     * @param isWhite True if checking for a white piece, false for a black
+     * piece.
+     * @return True if the piece is friendly, false otherwise.
+     */
     private boolean isFriendlyPiece(int row, int col, boolean isWhite) {
         int piece = board[row][col];
         return (isWhite && piece > 0) || (!isWhite && piece < 0);
     }
 
+    /**
+     * Determines if a piece at the given coordinates is an opponent's piece.
+     *
+     * @param row The row index of the piece.
+     * @param col The column index of the piece.
+     * @param isWhite True if checking for a white piece's opponent, false for
+     * black.
+     * @return True if the piece is an opponent's piece, false otherwise.
+     */
     private boolean isOpponentPiece(int row, int col, boolean isWhite) {
         int piece = board[row][col];
         return (isWhite && piece < 0) || (!isWhite && piece > 0);
     }
 
+    /**
+     * Prints the current state of the chessboard with indices for reference.
+     */
     public void printBoardWithIndices() {
         ////System.out.println("  0 1 2 3 4 5 6 7");  // Column indices for reference
         for (int row = 0; row < 8; row++) {
@@ -507,31 +497,31 @@ public class ChessBoard {
                 char displayChar;
                 displayChar = switch (piece) {
                     case -1 ->
-                        'p';
+                        'p';  // Black Pawn
                     case -2 ->
-                        'r';
+                        'r';  // Black Rook
                     case -3 ->
-                        'n';
+                        'n';  // Black Knight
                     case -4 ->
-                        'b';
+                        'b';  // Black Bishop
                     case -5 ->
-                        'q';
+                        'q';  // Black Queen
                     case -6 ->
-                        'k';
+                        'k';  // Black King
                     case 1 ->
-                        'P';
+                        'P';   // White Pawn
                     case 2 ->
-                        'R';
+                        'R';   // White Rook
                     case 3 ->
-                        'N';
+                        'N';   // White Knight
                     case 4 ->
-                        'B';
+                        'B';   // White Bishop
                     case 5 ->
-                        'Q';
+                        'Q';   // White Queen
                     case 6 ->
-                        'K';
+                        'K';   // White King
                     default ->
-                        '.';
+                        '.';  // Empty square
                 };
                 //System.out.print(displayChar + " ");
             }
@@ -539,14 +529,27 @@ public class ChessBoard {
         }
     }
 
+    /**
+     * Converts board coordinates into standard chess notation (e.g., "e4").
+     *
+     * @param row The row index on the board (0-7).
+     * @param col The column index on the board (0-7).
+     * @return A string representing the position in chess notation.
+     */
     public String toChessNotation(int row, int col) {
         char file = (char) ('a' + col);
         int rank = 8 - row;
         return "" + file + rank;
     }
 
-    private boolean checkingForCheck = false;
+    boolean checkingForCheck = false;
 
+    /**
+     * Checks if the king of the specified player is in check.
+     *
+     * @param player The player to check (WHITE or BLACK).
+     * @return True if the king is in check, false otherwise.
+     */
     public boolean isInCheck(Player player) {
         if (checkingForCheck) {
             return false; // Prevent further recursion if already checking for check

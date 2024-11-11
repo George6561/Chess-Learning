@@ -63,6 +63,11 @@ public class ChessGame {
     private StringBuilder moveHistory;
     private Random random;
 
+    /**
+     * Constructor to initialize the ChessGame with a given ChessWindow instance.
+     *
+     * @param chessWindow The ChessWindow instance for displaying the chessboard and handling UI.
+     */
     public ChessGame(ChessWindow chessWindow) {
         this.chessWindow = chessWindow;
         this.stockfish = new StockfishConnector();
@@ -70,6 +75,12 @@ public class ChessGame {
         this.random = new Random();
     }
 
+    /**
+     * Starts the game, initializing the Stockfish engine and controlling the main game loop.
+     *
+     * @throws IOException If an I/O error occurs while communicating with Stockfish.
+     * @throws InterruptedException If the thread is interrupted while waiting for UI updates.
+     */
     public void startGame() throws IOException, InterruptedException {
         if (stockfish.startEngine()) {
             try {
@@ -84,6 +95,11 @@ public class ChessGame {
         }
     }
 
+    /**
+     * Initializes the Stockfish engine by sending initial setup commands.
+     *
+     * @throws IOException If an I/O error occurs while sending commands or receiving responses from Stockfish.
+     */
     private void initializeStockfish() throws IOException {
         stockfish.sendCommand("uci");
         stockfish.getResponse();
@@ -92,6 +108,9 @@ public class ChessGame {
         stockfish.sendCommand("position startpos");
     }
 
+    /**
+     * Displays the initial board state in the ChessWindow UI.
+     */
     private void displayInitialBoard() {
         Platform.runLater(() -> {
             try {
@@ -104,25 +123,25 @@ public class ChessGame {
 
     private boolean isWhiteToMove = true;
 
+    /**
+     * The main game loop that alternates turns between Stockfish (White) and the random player (Black).
+     *
+     * @throws IOException If an I/O error occurs while communicating with the Stockfish engine.
+     * @throws InterruptedException If the thread is interrupted while waiting for UI updates.
+     */
     private void playGameLoop() throws IOException, InterruptedException {
-        //System.out.println("Starting game loop...");
-
         String boardStateBeforeLoop = chessWindow.getBoard().toString();
 
         while (true) {
             if (isWhiteToMove) {
-                //System.out.println("STOCKFISH MOVE NOW (WHITE)");
                 makeStockfishMove();
             } else {
-                //System.out.println("RANDOM MOVE NOW (BLACK)");
                 makeRandomMove();
             }
 
-            // Wait for UI updates to complete before proceeding to the next move
             CountDownLatch latch = new CountDownLatch(1);
             Platform.runLater(() -> {
                 try {
-                    // Ensure the UI is updated before continuing
                     chessWindow.displayChessPieces(-1, -1);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -130,35 +149,31 @@ public class ChessGame {
                     latch.countDown();
                 }
             });
-            latch.await(); // Wait until the UI update is done
+            latch.await();
 
-            // Capture the board state after the loop iteration
             String boardStateAfterLoop = chessWindow.getBoard().toString();
-
-            // Check if the board states before and after the loop are identical
             if (boardStateBeforeLoop.equals(boardStateAfterLoop)) {
                 System.out.println("Game over detected. The board state is unchanged.");
-                break; // Exit the loop as no move was made (checkmate or stalemate detected)
+                break;
             }
 
-            // Update the board state for the next iteration
+            double rating = this.stockfish.getMoveRating();
+            System.out.println("Rating: " + rating);
+
             boardStateBeforeLoop = boardStateAfterLoop;
-
-            // Switch turns after each move
             isWhiteToMove = !isWhiteToMove;
-
-            // Debug print to verify turn change
-            //System.out.println("Is it White's turn now? " + isWhiteToMove);
-            // Print current move history for debugging
-            //System.out.println("Current move history: " + moveHistory.toString());
-            // Small delay for smooth UI updates
-            //System.out.println("Rating: " + this.stockfish.getEvaluation(250));
             Thread.sleep(500);
         }
-        
+
         System.out.println("Game over");
     }
 
+    /**
+     * Executes Stockfish's move as White and updates the game state.
+     *
+     * @throws IOException If an I/O error occurs while sending commands to Stockfish.
+     * @throws InterruptedException If the thread is interrupted while waiting for UI updates.
+     */
     private void makeStockfishMove() throws IOException, InterruptedException {
         try {
             stockfish.sendCommand("go movetime 1000");
@@ -169,13 +184,11 @@ public class ChessGame {
                 return;
             }
 
-            //System.out.println("Stockfish's Move (White): " + bestMove);
             updateMoveHistory(bestMove);
 
             CountDownLatch latch = new CountDownLatch(1);
             Platform.runLater(() -> {
                 try {
-                    //System.out.println("Applying Stockfish move to the board: " + bestMove);
                     chessWindow.movePiece(bestMove);
                     chessWindow.displayChessPieces(-1, -1);
                 } catch (Exception e) {
@@ -186,14 +199,18 @@ public class ChessGame {
             });
             latch.await();
 
-            //System.out.println("Board state after Stockfish's move:");
             chessWindow.getBoard().printBoardWithIndices();
         } catch (Exception e) {
-            //System.out.println("Exception in makeStockfishMove: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    /**
+     * Executes a random legal move for the Black player and updates the game state.
+     *
+     * @throws IOException If an I/O error occurs while interacting with the ChessBoard or Stockfish.
+     * @throws InterruptedException If the thread is interrupted while waiting for UI updates.
+     */
     private void makeRandomMove() throws IOException, InterruptedException {
         try {
             List<int[]> legalMoves = chessWindow.getBoard().getAllLegalMoves(ChessBoard.Player.BLACK);
@@ -208,13 +225,11 @@ public class ChessGame {
             String to = chessWindow.getBoard().toChessNotation(randomMove[2], randomMove[3]);
             String randomMoveNotation = from + to;
 
-            //System.out.println("Random Move (Black): " + randomMoveNotation);
             updateMoveHistory(randomMoveNotation);
 
             CountDownLatch latch = new CountDownLatch(1);
             Platform.runLater(() -> {
                 try {
-                    //System.out.println("Applying Black's random move to the board: " + randomMoveNotation);
                     chessWindow.movePiece(randomMoveNotation);
                     chessWindow.displayChessPieces(-1, -1);
                 } catch (Exception e) {
@@ -225,17 +240,18 @@ public class ChessGame {
             });
             latch.await();
 
-            //System.out.println("Board state after Black's move:");
             chessWindow.getBoard().printBoardWithIndices();
-
-            // Inform Stockfish about the updated position after Black's move
             stockfish.sendCommand("position startpos moves " + moveHistory.toString());
         } catch (Exception e) {
-            //System.out.println("Exception in makeRandomMove: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    /**
+     * Updates the move history with the given move.
+     *
+     * @param move The move in standard chess notation to be appended to the history.
+     */
     private void updateMoveHistory(String move) {
         if (moveHistory.length() > 0) {
             moveHistory.append(" ");
