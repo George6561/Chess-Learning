@@ -1,0 +1,11 @@
+module:com.george.chess
+com.chess.board
+com.chess.images
+com.chess.main
+com.chess.stockfish
+com.chess.window
+com.montecarlo.analysis
+com.montecarlo.data
+com.montecarlo.engine
+com.montecarlo.simulation
+com.montecarlo.util
