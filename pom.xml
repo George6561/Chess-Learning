@@ -13,7 +13,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
-        <exec.mainClass>com.george.main.Main</exec.mainClass> <!-- Update with your actual main class -->
+        
+        <!-- The name of the main class to call -->
+        <exec.mainClass>com.chess.main.Main</exec.mainClass> 
     </properties>
 
     <build>
@@ -42,7 +44,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.george.main.Main</mainClass> <!-- Your main class -->
+                    <mainClass>com.chess.main.Main</mainClass> <!-- Your main class -->
                     <javafx.verbose>true</javafx.verbose> <!-- Enable verbose mode to debug JavaFX issues -->
                 </configuration>
             </plugin>
