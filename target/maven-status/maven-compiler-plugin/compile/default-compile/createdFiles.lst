@@ -3,6 +3,8 @@ com\chess\stockfish\StockfishConnector.class
 com\chess\images\ChessImage.class
 com\chess\main\MoveStorage.class
 com\montecarlo\analysis\GameAnalyzer.class
+com\montecarlo\data\GameResult.class
+com\montecarlo\data\Move.class
 module-info.class
 com\montecarlo\simulation\GameSimulator.class
 com\montecarlo\engine\MonteCarloEngine.class

@@ -588,4 +588,39 @@ public class ChessBoard {
         return inCheck;
     }
 
+    /**
+     * Checks if the specified player is in checkmate.
+     *
+     * @param player The player to check (WHITE or BLACK).
+     * @return True if the player is in checkmate, false otherwise.
+     */
+    public boolean isCheckmate(Player player) {
+        // First, check if the king is in check
+        if (!isInCheck(player)) {
+            return false; // If the king is not in check, it can't be checkmate
+        }
+
+        // Get all legal moves for the player
+        List<int[]> legalMoves = getAllLegalMoves(player);
+
+        // If there are no legal moves left, the player is in checkmate
+        return legalMoves.isEmpty();
+    }
+
+    /**
+     * Returns the piece located at the specified position on the board.
+     *
+     * @param row The row index (0-7) of the piece.
+     * @param col The column index (0-7) of the piece.
+     * @return The integer value representing the piece at the given position,
+     * or 0 if the position is empty.
+     */
+    public int getPieceAt(int row, int col) {
+        if (row >= 0 && row < 8 && col >= 0 && col < 8) {
+            return board[row][col];
+        } else {
+            throw new IllegalArgumentException("Position out of bounds");
+        }
+    }
+
 }
