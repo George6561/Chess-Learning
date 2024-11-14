@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
+
 /*
  * Copyright (c) 2024
  * George Miller
@@ -55,6 +56,10 @@ import java.util.concurrent.CountDownLatch;
  * - `StockfishConnector` for interacting with the Stockfish chess engine.
  * - `ChessBoard` for representing the current state of the chessboard and retrieving
  *   legal moves for a player.
+
+/**
+ * Main game controller for the chess game. Integrates UI, game board, and Stockfish engine.
+
  */
 public class ChessGame {
 
@@ -62,6 +67,8 @@ public class ChessGame {
     private StockfishConnector stockfish;
     private StringBuilder moveHistory;
     private Random random;
+    private MoveStorage storage;
+
 
     /**
      * Constructor to initialize the ChessGame with a given ChessWindow instance.
@@ -73,6 +80,10 @@ public class ChessGame {
         this.stockfish = new StockfishConnector();
         this.moveHistory = new StringBuilder();
         this.random = new Random();
+
+
+        this.storage = new MoveStorage(); // Initialize MoveStorage for storing moves and ratings
+
     }
 
     /**
@@ -91,7 +102,11 @@ public class ChessGame {
                 stockfish.stopEngine();
             }
         } else {
+
             //System.out.println("Failed to start Stockfish engine.");
+
+            System.out.println("Failed to start Stockfish engine.");
+
         }
     }
 
@@ -160,12 +175,22 @@ public class ChessGame {
             double rating = this.stockfish.getMoveRating();
             System.out.println("Rating: " + rating);
 
+
+
+            // Store the current board and rating in MoveStorage
+            storage.storeMove(chessWindow.getBoard(), rating);
+
+
             boardStateBeforeLoop = boardStateAfterLoop;
             isWhiteToMove = !isWhiteToMove;
             Thread.sleep(500);
         }
 
         System.out.println("Game over");
+
+
+        System.out.println(this.storage.toString());
+
     }
 
     /**
@@ -180,7 +205,11 @@ public class ChessGame {
             String bestMove = stockfish.getBestMove();
 
             if (bestMove == null || bestMove.isEmpty()) {
+
                 //System.out.println("Stockfish could not find a move. Game over.");
+
+                System.out.println("Stockfish could not find a move. Game over.");
+
                 return;
             }
 
@@ -216,7 +245,11 @@ public class ChessGame {
             List<int[]> legalMoves = chessWindow.getBoard().getAllLegalMoves(ChessBoard.Player.BLACK);
 
             if (legalMoves.isEmpty()) {
+
                 //System.out.println("Black has no legal moves. Game over.");
+
+                System.out.println("Black has no legal moves. Game over.");
+
                 return;
             }
 
@@ -258,5 +291,8 @@ public class ChessGame {
         }
         moveHistory.append(move);
     }
+
+
+
 
 }

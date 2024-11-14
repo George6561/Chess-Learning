@@ -1,19 +1,20 @@
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\engine\MonteCarloEngine.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\chess\stockfish\StockfishConnector.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\analysis\PerformanceAnalyzer.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\simulation\RandomPlayer.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\util\Logger.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\chess\main\Main.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\chess\board\ChessBoard.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\analysis\GameAnalyzer.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\engine\MonteCarloNode.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\simulation\SimulationRunner.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\chess\main\ChessGame.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\chess\images\ChessImage.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\util\MoveValidator.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\chess\images\ChessPiece.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\data\GameData.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\chess\window\ChessWindow.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\simulation\GameSimulator.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\com\montecarlo\data\GameStorage.java
-C:\Users\georg\Desktop\Programming\Java\Chess Stockfish Engine\src\main\java\module-info.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\analysis\PerformanceAnalyzer.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\chess\main\ChessGame.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\analysis\GameAnalyzer.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\engine\MonteCarloEngine.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\chess\main\MoveStorage.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\simulation\GameSimulator.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\engine\MonteCarloNode.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\module-info.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\chess\images\ChessPiece.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\chess\images\ChessImage.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\chess\board\ChessBoard.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\util\MoveValidator.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\data\GameStorage.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\chess\window\ChessWindow.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\data\GameData.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\simulation\SimulationRunner.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\util\Logger.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\chess\stockfish\StockfishConnector.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\montecarlo\simulation\RandomPlayer.java
+C:\Users\georg\Desktop\Programming\Java\Chess Project\src\main\java\com\chess\main\Main.java

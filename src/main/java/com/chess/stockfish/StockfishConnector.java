@@ -356,4 +356,8 @@ public class StockfishConnector {
         return this.rating;
     }
 
+
 }
+
+
+

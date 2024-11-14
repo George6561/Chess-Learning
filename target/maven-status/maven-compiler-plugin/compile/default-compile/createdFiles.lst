@@ -1,6 +1,7 @@
 com\montecarlo\simulation\SimulationRunner.class
 com\chess\stockfish\StockfishConnector.class
 com\chess\images\ChessImage.class
+com\chess\main\MoveStorage.class
 com\montecarlo\analysis\GameAnalyzer.class
 module-info.class
 com\montecarlo\simulation\GameSimulator.class
